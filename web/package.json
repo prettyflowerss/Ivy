@@ -11,7 +11,8 @@
     "db:studio": "drizzle-kit studio",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "postinstall": "npm rebuild argon2 --build-from-source"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.6.0",

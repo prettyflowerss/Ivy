@@ -35,10 +35,16 @@ export async function signUp(username: string, password: string) {
     };
   }
 
-  return {
-    succcess: true,
-    message: "Account created successfully.",
-  };
+  const accessToken = jwt.sign(
+    {
+      username,
+    },
+    env.JWT_SECRET,
+  );
+
+  cookies().set("accessToken", accessToken);
+
+  redirect("/dashboard");
 }
 
 export async function login(username: string, password: string) {
@@ -80,9 +86,4 @@ export async function login(username: string, password: string) {
   cookies().set("accessToken", accessToken);
 
   redirect("/dashboard");
-
-  return {
-    succcess: true,
-    message: "Login successful.",
-  };
 }

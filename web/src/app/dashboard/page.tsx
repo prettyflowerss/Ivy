@@ -20,7 +20,6 @@ export default async function DashboardPage() {
 
   return (
     <div className="h-screen">
-      <Navbar />
       <div className="flex h-screen flex-col items-center justify-center text-center">
         <div className="m-8 hidden p-4 md:block">
           <h1 className="text-3xl font-bold">Dashboard</h1>

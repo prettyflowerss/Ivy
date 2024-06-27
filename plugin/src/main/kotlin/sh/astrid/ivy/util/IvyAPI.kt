@@ -16,14 +16,19 @@ data class SuccessfulAuthorization(
 ) : ApiResponse()
 
 @Serializable
+data class User(
+    val uuid: String,
+)
+
+@Serializable
+data class UserResponse(
+    val uuid: String,
+) : ApiResponse()
+
+@Serializable
 data class UsersResponse(
     val users: List<User>
-): ApiResponse() {
-    @Serializable
-    data class User(
-        val uuid: String,
-    )
-}
+): ApiResponse()
 
 @Serializable
 data class SessionResponse(
@@ -37,8 +42,8 @@ data class AuthorizationBody(
 )
 
 object IvyAPI {
-    private val baseUrl = Ivy.configData.general.apiUrl
-    private val apiKey = Ivy.configData.general.apiKey
+    val baseUrl = Ivy.configData.general.apiUrl
+    val apiKey = Ivy.configData.general.apiKey
 
     val validateToken = Rose.put {
         url = "$baseUrl/authorize"

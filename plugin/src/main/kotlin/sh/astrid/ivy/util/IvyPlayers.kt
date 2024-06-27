@@ -2,6 +2,9 @@ package sh.astrid.ivy.util
 
 import org.bukkit.Bukkit
 import sh.astrid.ivy.Ivy
+import sh.astrid.ivy.util.IvyAPI.apiKey
+import sh.astrid.ivy.util.IvyAPI.baseUrl
+import sh.astrid.rose.Rose
 import java.util.UUID
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -31,14 +34,13 @@ object IvyPlayers {
     }
 
     fun ableToAuthorize(uuid: UUID): Boolean {
-        var ableTo = false
-        async {
-            val userResponse = IvyAPI.getUsers.send()
-            if (userResponse.data is UsersResponse) {
-                val user = userResponse.data.users.find { it.uuid == uuid.toString() }
-                ableTo = user != null
-            }
+        val getUser = Rose.get {
+            url = "$baseUrl/users/$uuid"
+            serializers = listOf(UserResponse.serializer(), ErrorSchema.serializer())
+            headers = mapOf("Authorization" to apiKey)
         }
-        return ableTo
+
+        val userResponse = getUser.send()
+        return userResponse.data is UserResponse
     }
 }

@@ -6,6 +6,7 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
+import sh.astrid.ivy.Ivy
 import kotlin.reflect.full.memberProperties
 import java.net.URI
 import java.net.http.HttpClient
@@ -91,9 +92,9 @@ object Rose {
         val requestObj = client.send(req, HttpResponse.BodyHandlers.ofString())
         val url = requestObj.uri().toURL().toString()
 
-        try {
-            val json = Json.parseToJsonElement(requestObj.body()).jsonObject
+        val json = Json.parseToJsonElement(requestObj.body()).jsonObject
 
+        try {
             val validSerializer = serializers.firstOrNull { serializer ->
                 try {
                     jsonSerializer.decodeFromJsonElement(serializer, json)
@@ -108,6 +109,7 @@ object Rose {
             val response = jsonSerializer.decodeFromJsonElement(validSerializer, json) as ApiResponse
             return RoseResponse(response)
         } catch (e: Exception) {
+            Ivy.getInstance().logger.warning("Body: $json")
             throw RuntimeException("Error parsing body during request to $url", e)
         }
     }

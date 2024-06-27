@@ -1,4 +1,5 @@
 import {
+  DownloadIcon,
   GithubIcon,
   PartyPopper,
 } from "lucide-react";
@@ -31,11 +32,11 @@ export default function HomePage() {
           <Link
             target="_blank"
             rel="noreferrer"
-            href={"https://github.com/prettyflowerss/Ivy"}
+            href={"https://github.com/prettyflowerss/Ivy/releases/latest"}
             className={cn(buttonVariants({ variant: "outline" }))}
           >
-            <GithubIcon className="mr-2 h-4 w-4" />
-            GitHub
+            <DownloadIcon className="mr-2 h-4 w-4" />
+            Download
           </Link>
         </LandingActions>
       </LandingHeader>

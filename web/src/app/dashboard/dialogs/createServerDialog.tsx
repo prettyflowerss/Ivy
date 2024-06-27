@@ -20,7 +20,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import createServer from "./actions/createServer";
+import createServer from "../actions/createServer";
 import { toast } from "~/components/ui/use-toast";
 
 export default function CreateServerDialog(props: {

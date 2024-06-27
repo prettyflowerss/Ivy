@@ -84,7 +84,6 @@ export default function SetupPage(props: { secret: string; totpUrl: string }) {
 
     async function onSubmit(data: FormType) {
       const valid = await validateCode(data.pin, props.secret);
-      console.log(valid);
 
       if (!valid) {
         toast({

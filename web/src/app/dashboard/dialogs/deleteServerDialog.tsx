@@ -11,7 +11,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
-import deleteServer from "./actions/deleteServer";
+import deleteServer from "../actions/deleteServer";
 import type { Server } from "~/server/db/schema";
 import { SkullIcon } from "lucide-react";
 import { Button } from "~/components/ui/button";

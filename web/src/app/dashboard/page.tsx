@@ -1,14 +1,17 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import Navbar from "~/components/Navbar";
 import { DataTable } from "~/components/ui/data-table";
-import { columns } from "./columns";
-import { server as serverSchema, user as userSchema } from "~/server/db/schema";
+import {
+  server,
+  server as serverSchema,
+  user as userSchema,
+} from "~/server/db/schema";
 import { db } from "~/server/db";
 import { Button } from "~/components/ui/button";
-import CreateServerDialog from "./createServerDialog";
+import CreateServerDialog from "./dialogs/createServerDialog";
 import { eq } from "drizzle-orm";
 import { ServerWithUsers } from "~/interfaces/Servers";
+import Table from "./table";
 
 export default async function DashboardPage() {
   const isLoggedIn = cookies().has("accessToken");
@@ -16,12 +19,11 @@ export default async function DashboardPage() {
   if (!isLoggedIn) redirect("/auth");
 
   const servers = await getServers();
-  console.log(servers);
 
   return (
     <div className="h-screen">
       <div className="flex h-screen flex-col items-center justify-center text-center">
-        <div className="m-8 hidden p-4 md:block">
+        <div className="m-8 p-4">
           <h1 className="text-3xl font-bold">Dashboard</h1>
           <p className="text-lg">
             Here you can see all the servers you have registered within Ivy.
@@ -32,13 +34,8 @@ export default async function DashboardPage() {
             </Button>
           </CreateServerDialog>
         </div>
-        <div>
-          <DataTable
-            columns={columns}
-            data={servers}
-            className="w-fit"
-            noResults={<p>You have no servers registered within Ivy.</p>}
-          />
+        <div className="w-full md:w-fit">
+          <Table servers={servers} />
         </div>
       </div>
     </div>
@@ -54,6 +51,7 @@ async function getServers() {
       name: serverSchema.name,
       apiKey: serverSchema.apiKey,
       userUUID: userSchema.minecraftUUID,
+      userId: userSchema.id,
     })
     .from(serverSchema)
     .leftJoin(userSchema, eq(userSchema.serverId, serverSchema.id));
@@ -71,9 +69,16 @@ async function getServers() {
     const serverEntry = serversMap.get(s.id);
     if (s.userUUID) {
       const userInfo = await fetchPlayer(s.userUUID);
+      console.log("Adding user", {
+        minecraftUUID: s.userUUID,
+        name: userInfo.name,
+        id: s.userId,
+      });
       serverEntry.users.push({
         minecraftUUID: s.userUUID,
         name: userInfo.name,
+        id: s.userId,
+        serverId: s.id,
       });
     }
   });

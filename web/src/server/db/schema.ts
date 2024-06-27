@@ -54,6 +54,7 @@ export const admin = createTable("admin", {
 });
 
 export interface User {
+  id: string;
   secret: string;
   minecraftUUID: string;
   serverId: number;

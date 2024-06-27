@@ -42,3 +42,6 @@ Ivy is built on top of the following technologies:
 - [Tailwind CSS](https://tailwindcss.com/)
 - [TypeScript](https://www.typescriptlang.org/)
 
+## License
+
+Ivy is licensed under the [Mozilla Public License 2.0](https://www.mozilla.org/en-US/MPL/2.0/).

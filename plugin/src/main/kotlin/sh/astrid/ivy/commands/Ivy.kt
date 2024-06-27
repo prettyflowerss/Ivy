@@ -52,16 +52,16 @@ fun authorize(executor: Player, code: String) {
             executor.send("notSetup")
             return@async
         }
-    }
 
-    val isAuthorized = IvyPlayers.isAuthorized(executor.uniqueId)
 
-    if(isAuthorized) {
-        executor.send("alreadyAuthorized")
-        return
-    }
+        val isAuthorized = IvyPlayers.isAuthorized(executor.uniqueId)
 
-    async {
+        if(isAuthorized) {
+            executor.send("alreadyAuthorized")
+            return@async
+        }
+
+
         val validateTokenEndpoint = IvyAPI.validateToken
         validateTokenEndpoint.body = AuthorizationBody(code, executor.uniqueId.toString()).toMap()
 

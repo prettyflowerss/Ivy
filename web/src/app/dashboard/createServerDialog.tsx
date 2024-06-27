@@ -64,7 +64,7 @@ export default function CreateServerDialog(props: {
                   <FormItem>
                     <FormLabel>Server name</FormLabel>
                     <FormControl>
-                      <Input placeholder="this is crazy" {...field} />
+                      <Input {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

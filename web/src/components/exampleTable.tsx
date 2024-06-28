@@ -3,6 +3,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { ServerWithUsers } from "~/interfaces/Servers";
 import { DataTable } from "./ui/data-table";
+import { Button } from "~/components/ui/button";
 
 const columns: ColumnDef<ServerWithUsers>[] = [
   {
@@ -29,13 +30,17 @@ const columns: ColumnDef<ServerWithUsers>[] = [
       return (
         <div className={`grid grid-cols-${cols} gap-2`}>
           {users.map((user) => (
-            <div key={user.minecraftUUID} className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              className="flex h-fit w-fit items-center gap-2 p-2"
+              key={user.minecraftUUID}
+            >
               <img
                 src={`https://skins.mcstats.com/face/${user.minecraftUUID}`}
-                className="h-8 w-8 rounded-lg md:h-6 md:w-6"
+                className="h-6 w-6 rounded-lg"
               />
-              <span className="hidden md:block">{user.name}</span>
-            </div>
+              <span>{user.name}</span>
+            </Button>
           ))}
         </div>
       );

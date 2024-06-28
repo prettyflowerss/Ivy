@@ -60,7 +60,7 @@ export default function Table(props: { servers: ServerWithUsers[] }) {
                 >
                   <img
                     src={`https://skins.mcstats.com/face/${user.minecraftUUID}`}
-                    className="h-8 w-8 rounded-lg md:h-6 md:w-6"
+                    className="h-6 w-6 rounded-lg"
                   />
                   <span>{user.name}</span>
                 </Button>

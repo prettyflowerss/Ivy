@@ -17,6 +17,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${GeistSans.variable} dark`}>
+      <head>
+        <script
+          data-domain="ivy.astrid.sh"
+          defer
+          src="https://analytics.astrid.sh/js/script.js"
+        />
+      </head>
       <body>
         <Toaster />
         <Navbar />

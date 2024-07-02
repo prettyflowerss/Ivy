@@ -12,6 +12,8 @@ import CreateServerDialog from "./dialogs/createServerDialog";
 import { eq } from "drizzle-orm";
 import { ServerWithUsers } from "~/interfaces/Servers";
 import Table from "./table";
+import jwt from "jsonwebtoken";
+import { env } from "~/env";
 
 export default async function DashboardPage() {
   const isLoggedIn = cookies().has("accessToken");
@@ -45,6 +47,12 @@ export default async function DashboardPage() {
 async function getServers() {
   const serversMap = new Map();
 
+  const userToken = cookies().get("accessToken")?.value ?? "";
+  const tokenInfo = jwt.verify(userToken, env.JWT_SECRET) as {
+    username: string;
+    id: number;
+  };
+
   const dbResults = await db
     .select({
       id: serverSchema.id,
@@ -54,6 +62,7 @@ async function getServers() {
       userId: userSchema.id,
     })
     .from(serverSchema)
+    .where(eq(serverSchema.creator, tokenInfo.id))
     .leftJoin(userSchema, eq(userSchema.serverId, serverSchema.id));
 
   const fetchPromises = dbResults.map(async (s) => {

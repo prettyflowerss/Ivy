@@ -29,7 +29,7 @@ export default function Navbar() {
 
     return (
       <nav className="flex items-center gap-2">
-        <a href={"/auth/login"}>
+        <a href={"/auth"}>
           <Button size="sm" variant="outline">
             Log in
           </Button>

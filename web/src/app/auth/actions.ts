@@ -3,7 +3,7 @@
 import argon2 from "argon2";
 import { eq } from "drizzle-orm";
 import { db } from "~/server/db";
-import { admin as adminSchema } from "~/server/db/schema";
+import { Admin, admin as adminSchema } from "~/server/db/schema";
 import jwt from "jsonwebtoken";
 import { env } from "~/env";
 import { cookies } from "next/headers";
@@ -21,13 +21,18 @@ export async function signUp(username: string, password: string) {
       message: "Username is already taken.",
     };
 
+  let createdUser: Admin[];
+
   try {
     const hash = await argon2.hash(password);
 
-    await db.insert(adminSchema).values({
-      username,
-      password: hash,
-    });
+    createdUser = await db
+      .insert(adminSchema)
+      .values({
+        username,
+        password: hash,
+      })
+      .returning();
   } catch (error) {
     return {
       succcess: false,
@@ -38,6 +43,7 @@ export async function signUp(username: string, password: string) {
   const accessToken = jwt.sign(
     {
       username,
+      id: createdUser[0]!.id,
     },
     env.JWT_SECRET,
   );
@@ -79,6 +85,7 @@ export async function login(username: string, password: string) {
   const accessToken = jwt.sign(
     {
       username,
+      id: user.id,
     },
     env.JWT_SECRET,
   );

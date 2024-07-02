@@ -1,8 +1,13 @@
 "use client";
 
 import { Button } from "./ui/button";
-import { hasCookie } from "cookies-next";
+import { deleteCookie, hasCookie } from "cookies-next";
 import { useEffect, useState } from "react";
+
+function logout() {
+  deleteCookie("accessToken");
+  location.href = "/";
+}
 
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -15,7 +20,7 @@ export default function Navbar() {
     if (isLoggedIn) {
       return (
         <nav className="flex items-center gap-2">
-          <Button size="sm" variant="outline">
+          <Button size="sm" variant="outline" onClick={() => logout()}>
             Log out
           </Button>
         </nav>
@@ -24,7 +29,7 @@ export default function Navbar() {
 
     return (
       <nav className="flex items-center gap-2">
-        <a href={"/login"}>
+        <a href={"/auth/login"}>
           <Button size="sm" variant="outline">
             Log in
           </Button>
